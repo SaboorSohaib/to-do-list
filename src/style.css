@@ -54,7 +54,7 @@ main {
   margin-top: 10px;
 }
 
-.to-do-input {
+.add-task {
   width: 100%;
   padding: 5px;
   border: none;
@@ -69,4 +69,25 @@ main {
   border: none;
   cursor: pointer;
   font-size: 14px;
+}
+
+.todo-Item {
+  display: flex;
+  padding: 5px;
+}
+
+.newInput {
+  justify-self: flex-start;
+  border: none;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.fa-solid {
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.fa-solid:hover {
+  color: red;
 }
