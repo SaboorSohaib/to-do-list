@@ -1,31 +1,46 @@
 const taskInput = document.querySelector('.add-task');
 const taskList = document.querySelector('.list');
 const form = document.querySelector('.task-form');
-let task;
-let todos = JSON.parse(localStorage.getItem('todos')) || [];
+let tasks = [];
+let todo;
+
+const saveTasks = () => {
+  const stringifyTasks = JSON.stringify(tasks);
+  localStorage.setItem('ToDo', stringifyTasks);
+};
+
+const getSavedTasks = () => {
+  tasks = JSON.parse(localStorage.getItem('ToDo'));
+};
+
 const store = () => {
-  task = {
+  todo = {
     Description: taskInput.value,
-    id: todos.length + 1,
+    id: tasks.length + 1,
     completed: false,
   };
-  todos.push(task);
-  localStorage.setItem('todos', JSON.stringify(todos));
+  tasks.push(todo);
+  saveTasks();
 };
 
 const clear = () => {
   taskInput.value = '';
 };
 
-const removeTask = (id) => {
-  todos = todos.filter((tasks) => tasks.id !== id);
-  todos.forEach((task, id) => {
-    task.id = id + 1;
-  });
-  localStorage.setItem('todos', JSON.stringify(todos));
+const completedTask = (status, index) => {
+  tasks[index - 1].completed = status;
+  saveTasks();
 };
 
-const addTask = (task) => {
+const removeTask = (id) => {
+  tasks = tasks.filter((mytasks) => mytasks.id !== id);
+  tasks.forEach((todo, id) => {
+    todo.id = id + 1;
+  });
+  saveTasks();
+};
+
+const addTask = (todo) => {
   const ul = document.createElement('div');
   ul.classList.add('todo-Item');
 
@@ -36,8 +51,21 @@ const addTask = (task) => {
   const newInput = document.createElement('input');
   newInput.type = 'text';
   newInput.classList.add('newInput');
-  newInput.value = task.Description;
+  newInput.value = todo.Description;
 
+  checkBox.onclick = (e) => {
+    completedTask(e.target.checked, todo.id);
+    if (todo.completed === true) {
+      newInput.classList.add('completed');
+    } else {
+      newInput.classList.remove('completed');
+    }
+  };
+
+  if (todo.completed === true) {
+    checkBox.checked = 'checked';
+    newInput.classList.add('completed');
+  }
   const deleteTask = document.createElement('i');
   deleteTask.classList.add('fa-solid');
   deleteTask.classList.add('fa-trash');
@@ -47,19 +75,19 @@ const addTask = (task) => {
   taskList.append(ul);
   deleteTask.addEventListener('click', () => {
     deleteTask.parentElement.remove();
-    removeTask(task.id);
+    removeTask(todo.id);
   });
 };
 
-todos.forEach(addTask);
+tasks.forEach(addTask);
 const modifyList = () => {
   const editTask = document.querySelectorAll('.newInput');
   editTask.forEach((edit, idx) => {
     edit.addEventListener('change', () => {
-      todos.forEach((task, index) => {
+      tasks.forEach((task, index) => {
         if (idx === index) {
           task.Description = edit.value;
-          localStorage.setItem('todos', JSON.stringify(todos));
+          localStorage.setItem('ToDo', JSON.stringify(tasks));
         }
       });
     });
@@ -72,10 +100,36 @@ function pop() {
     e.preventDefault();
     if (taskInput.value !== '') {
       store();
-      addTask(task);
+      addTask(todo);
       clear();
     }
   });
 }
 
-export { pop, modifyList };
+const poptasks = () => {
+  if (localStorage.getItem('ToDo')) {
+    getSavedTasks();
+    tasks.map((todos) => {
+      addTask(todos);
+      return todos;
+    });
+  } else {
+    tasks.map((todos) => {
+      addTask(todos);
+      return todos;
+    });
+  }
+};
+
+const clearAll = () => {
+  tasks = tasks.filter((todos) => todos.completed !== true);
+  tasks.forEach((todo, id) => {
+    todo.id = id + 1;
+  });
+  saveTasks();
+  window.location.reload();
+};
+
+export {
+  pop, modifyList, poptasks, clearAll,
+};
