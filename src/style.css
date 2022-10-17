@@ -5,7 +5,10 @@
 }
 
 body {
-  background-color: aliceblue;
+  background-image: url(../images/coffee.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: flex;
   justify-content: center;
   font-family: 'Times New Roman', Times, serif;
