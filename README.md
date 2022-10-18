@@ -5,7 +5,7 @@ Basic website that allows users to add/remove and update their tasks.
 
 
 ## Live Demo:
-
+[Click Here to see the live demo](https://saboorsohaib.github.io/to-do-list/dist/)
 
  ## Built With
 
