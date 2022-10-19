@@ -95,7 +95,7 @@ const modifyList = () => {
 };
 modifyList();
 
-function pop() {
+const pop = () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (taskInput.value !== '') {
@@ -104,7 +104,7 @@ function pop() {
       clear();
     }
   });
-}
+};
 
 const poptasks = () => {
   if (localStorage.getItem('ToDo')) {
