@@ -9,3 +9,10 @@ describe('test fore adding task', () => {
     expect(MockItemsTest.addTask(testItems1.getItem()).length).toBe(mockItems.length);
   });
 });
+
+describe('test for deleting task', () => {
+  test('Delete items form list', () => {
+    expect(MockItemsTest.deleteTask(0).length).toBe(mockItems.length);
+    expect(MockItemsTest.deleteTask(1).length).toBe(mockItems.length);
+  });
+});
